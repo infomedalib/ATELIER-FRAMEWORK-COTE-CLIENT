@@ -20,9 +20,9 @@ npm run preview
 
 ## Fonctionnalités
 
-- Liste de cinq contacts d’exemple, avec avatar à l’initiale du prénom, nom, prénom et téléphone.
-- Avatars affichés avec des initiales dans la liste et la fiche, selon le choix de présentation.
-- Fiche de consultation/modification et formulaire d’ajout.
+- Liste de cinq contacts d’exemple, avec initiales, nom, prénom et téléphone.
+- Fiche de consultation/modification affichant les initiales de chaque contact.
+- Fiche détaillée et formulaire d’ajout.
 - Actions natives `tel:` et `mailto:`.
 - Sélection d’image depuis la galerie et capture via `input type="file" capture="environment"`.
 - Les commandes de sélection et de capture restent disponibles ; les avatars affichent toujours les initiales.
@@ -41,11 +41,11 @@ npm run preview
 - `captures/` : captures réalisées depuis l’application.
 - `Rapport-TP-Gestion-Contacts.pdf` : compte rendu du projet et des tests.
 
-Captures : [liste et initiales](./captures/01-liste-contacts.png), [fiche](./captures/02-fiche-contact.png), [modification](./captures/03-modification-contact.png) et [fiche avec les commandes de sélection](./captures/04-selection-photo.png).
+Captures : [liste et initiales](./captures/01-liste-contacts.png), [fiche](./captures/02-fiche-contact.png), [modification](./captures/03-modification-contact.png) et [galerie et caméra](./captures/04-galerie-camera.png).
 
 ## Tests
 
-Les cinq contacts initiaux, leurs initiales, noms et numéros ont été vérifiés dans la liste. Les essais navigateur couvrent la modification et la persistance après rechargement, le retour sans sauvegarde, les champs vides et l’e-mail invalide. Les liens `tel:` et `mailto:` ont été vérifiés ; l’ouverture d’applications natives et la prise de photo doivent encore être essayées sur un téléphone compatible. Les avatars restent en initiales même lorsqu’une photo est choisie.
+Les cinq contacts initiaux, leurs initiales, noms et numéros ont été vérifiés dans la liste. Les essais navigateur couvrent la modification et la persistance après rechargement, le retour sans sauvegarde, les champs vides et l’e-mail invalide. Les liens `tel:` et `mailto:` ont été vérifiés. La sélection d’un fichier image via Galerie et le champ Caméra a été testée dans le navigateur ; l’ouverture des applications natives et la prise de photo réelle restent à essayer sur un téléphone compatible. Les avatars restent en initiales même lorsqu’une photo est choisie.
 
 ## Déploiement
 
