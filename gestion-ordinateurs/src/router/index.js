@@ -5,7 +5,8 @@ import DetailContact from '../views/DetailContact.vue'
 
 function contactExists(to) {
   const { getContact } = useContacts()
-  return getContact(to.params.id) ? true : { name: 'ListeContacts' }
+  const contact = getContact(to.params.id)
+  return contact ? true : { name: 'ListeContacts' }
 }
 
 const routes = [

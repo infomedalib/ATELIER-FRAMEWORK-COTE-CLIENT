@@ -3,12 +3,25 @@
     <h2>{{ isNew ? 'Nouveau contact' : 'Fiche contact — Modification' }}</h2>
 
     <div class="photo-zone">
-      <span class="photo-preview avatar-initiales" :style="{ background: form.couleur || '#dbeafe' }">{{
-        initiales(form) }}</span>
+      <div class="photo-preview-wrapper">
+        <img
+          v-if="form.photo"
+          :src="form.photo"
+          :alt="form.prenom + ' ' + form.nom"
+          class="photo-preview-img"
+        />
+        <span
+          v-else
+          class="photo-preview avatar-initiales"
+          :style="{ background: form.couleur || '#dbeafe' }"
+        >{{ initiales(form) }}</span>
+      </div>
 
       <p class="hint">
         Sur un appareil compatible, Caméra ouvre l’appareil photo. Sinon, choisissez une image dans la galerie.
-        L’avatar reste affiché avec les initiales.
+      </p>
+      <p v-if="photoSelectionnee" class="photo-status" role="status" aria-live="polite">
+        Photo sélectionnée : {{ photoSelectionnee }}.
       </p>
     </div>
 
@@ -38,8 +51,8 @@
       <p v-if="errorMessage" class="error" role="alert">{{ errorMessage }}</p>
 
       <div class="actions-grille">
-        <a :href="telephoneHref" class="btn-appeler">Appeler</a>
-        <a :href="'mailto:' + form.email" class="btn-email">E-mail</a>
+        <a :href="telephoneHref || '#'" class="btn-appeler">Appeler</a>
+        <a :href="form.email ? 'mailto:' + form.email : '#'" class="btn-email">E-mail</a>
         <label class="btn-galerie file-btn">
           Galerie
           <input type="file" accept="image/*" @change="onFileChange" hidden />
@@ -59,7 +72,7 @@
 </template>
 
 <script setup>
-import { reactive, ref, computed } from 'vue'
+import { reactive, ref, computed, watch } from 'vue'
 import { useRouter, useRoute } from 'vue-router'
 import { useContacts } from '../composables/useContacts'
 
@@ -68,16 +81,31 @@ const route = useRoute()
 const { getContact, saveContact, newContact, initiales } = useContacts()
 
 const isNew = computed(() => route.name === 'NouveauContact')
-const telephoneHref = computed(() => `tel:${form.telephone.replace(/[^\d+]/g, '')}`)
-
-const existing = isNew.value ? null : getContact(route.params.id)
-const form = reactive(existing ? { ...existing } : newContact())
-
 const errorMessage = ref('')
+const photoSelectionnee = ref('')
+const form = reactive(newContact())
+
+const telephoneHref = computed(() => {
+  const value = form.telephone ? String(form.telephone) : ''
+  return value ? `tel:${value.replace(/[^\d+]/g, '')}` : ''
+})
+
+watch(
+  () => route.fullPath,
+  () => {
+    const existing = isNew.value ? null : getContact(route.params.id)
+    Object.assign(form, existing ? { ...existing } : newContact())
+    errorMessage.value = ''
+    photoSelectionnee.value = ''
+  },
+  { immediate: true }
+)
 
 function onFileChange(e) {
   const file = e.target.files?.[0]
   if (!file) return
+  photoSelectionnee.value = ''
+  e.target.value = ''
 
   if (!file.type.startsWith('image/')) {
     errorMessage.value = 'Veuillez choisir un fichier image.'
@@ -113,6 +141,7 @@ function onFileChange(e) {
       context.fillRect(0, 0, canvas.width, canvas.height)
       context.drawImage(image, 0, 0, canvas.width, canvas.height)
       form.photo = canvas.toDataURL('image/jpeg', 0.82)
+      photoSelectionnee.value = file.name
       errorMessage.value = ''
     }
     image.onerror = () => {
@@ -163,6 +192,21 @@ function retour() {
   margin-bottom: 8px;
 }
 
+.photo-preview-wrapper {
+  width: 94px;
+  height: 94px;
+  margin: 0 auto 8px;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.photo-preview-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
 .photo-preview.avatar-initiales {
   display: flex;
   align-items: center;
@@ -170,7 +214,6 @@ function retour() {
   font-weight: 700;
   font-size: 24px;
   color: #1d4ed8;
-  margin: 0 auto;
 }
 
 .file-btn {
@@ -202,6 +245,12 @@ function retour() {
   font-size: 0.8rem;
   color: #64748b;
   margin-top: 10px;
+}
+
+.photo-status {
+  margin: 6px 0 0;
+  color: #166534;
+  font-size: 0.75rem;
 }
 
 .photo-preview {

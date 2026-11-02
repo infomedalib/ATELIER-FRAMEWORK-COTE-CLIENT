@@ -7,11 +7,15 @@
 
     <ul class="contact-list">
       <li v-for="contact in contacts" :key="contact.id" class="contact-card">
-        <span
-          class="avatar-initiales"
-          :style="{ background: contact.couleur || '#dbeafe' }"
-          aria-hidden="true"
-        >{{ initiale(contact) }}</span>
+        <div class="contact-photo" :style="{ background: contact.couleur || '#dbeafe' }">
+          <img
+            v-if="contact.photo"
+            :src="contact.photo"
+            :alt="contact.prenom + ' ' + contact.nom"
+            class="contact-photo-img"
+          />
+          <span v-else class="avatar-initiales" aria-hidden="true">{{ initiales(contact) }}</span>
+        </div>
 
         <div class="contact-infos">
           <strong>{{ contact.nom }} {{ contact.prenom }}</strong>
@@ -32,13 +36,7 @@ import { useRouter } from 'vue-router'
 import { useContacts } from '../composables/useContacts'
 
 const router = useRouter()
-const { contacts } = useContacts()
-
-function initiale(contact) {
-  const prenom = contact.prenom?.trim()
-  const nom = contact.nom?.trim()
-  return (prenom || nom || '?').charAt(0).toUpperCase()
-}
+const { contacts, initiales } = useContacts()
 
 function modifier(id) {
   router.push({ name: 'DetailContact', params: { id } })
@@ -95,17 +93,25 @@ function ajouter() {
   padding: 8px 10px;
 }
 
-.avatar-initiales {
+.contact-photo {
   width: 48px;
   height: 48px;
   border-radius: 50%;
   flex-shrink: 0;
-}
-
-.avatar-initiales {
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.contact-photo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.avatar-initiales {
   font-weight: 700;
   font-size: 1.25rem;
   color: #334155;
@@ -154,7 +160,7 @@ function ajouter() {
     padding: 8px;
   }
 
-  .avatar-initiales {
+  .contact-photo {
     width: 42px;
     height: 42px;
   }

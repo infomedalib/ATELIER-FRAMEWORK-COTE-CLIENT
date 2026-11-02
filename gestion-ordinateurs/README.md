@@ -21,7 +21,7 @@ npm run preview
 ## Fonctionnalités
 
 - Liste de cinq contacts d’exemple, avec initiales, nom, prénom et téléphone.
-- Fiche de consultation/modification affichant les initiales de chaque contact.
+- Fiche contact avec modification des champs et affichage des initiales.
 - Fiche détaillée et formulaire d’ajout.
 - Actions natives `tel:` et `mailto:`.
 - Sélection d’image depuis la galerie et capture via `input type="file" capture="environment"`.
@@ -49,6 +49,6 @@ Les cinq contacts initiaux, leurs initiales, noms et numéros ont été vérifi�
 
 ## Déploiement
 
-Le workflow GitHub Actions du dépôt construit l’application et la publie sur GitHub Pages après chaque mise à jour de `main`. L’action tente d’activer Pages automatiquement. Si le compte du workflow n’a pas les droits nécessaires, un administrateur doit sélectionner la source **GitHub Actions** dans **Settings → Pages**. Après publication, l’application est accessible à l’adresse :
+Le workflow GitHub Actions construit l’application et la publie sur GitHub Pages après chaque mise à jour de `main`. Pour la première publication, sélectionnez **GitHub Actions** comme source dans **Settings → Pages**. Après publication, l’application est accessible à l’adresse :
 
 <https://infomedalib.github.io/ATELIER-FRAMEWORK-COTE-CLIENT/>
