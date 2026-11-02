@@ -21,12 +21,12 @@ npm run preview
 ## Fonctionnalités
 
 - Liste de cinq contacts d’exemple, avec avatar à l’initiale du prénom, nom, prénom et téléphone.
-- Photo personnalisée prévisualisée dans la fiche et visible dans la liste après enregistrement.
+- Avatars affichés avec des initiales dans la liste et la fiche, selon le choix de présentation.
 - Fiche de consultation/modification et formulaire d’ajout.
-- Initiales dans les cercles des contacts d’exemple ; photo choisie affichée dès sa sélection.
 - Actions natives `tel:` et `mailto:`.
 - Sélection d’image depuis la galerie et capture via `input type="file" capture="environment"`.
-- Prévisualisation immédiate ; images redimensionnées avant l’enregistrement.
+- Les commandes de sélection et de capture restent disponibles ; les avatars affichent toujours les initiales.
+- Images sélectionnées redimensionnées avant l’enregistrement.
 - Validation des champs et de l’adresse e-mail ; retour à la liste sans sauvegarder.
 - Persistance locale avec migration des anciens contacts et des photos manquantes.
 - Routage par fragment d’URL pour fonctionner sur l’hébergement statique GitHub Pages.
@@ -41,11 +41,11 @@ npm run preview
 - `captures/` : captures réalisées depuis l’application.
 - `Rapport-TP-Gestion-Contacts.pdf` : compte rendu du projet et des tests.
 
-Captures : [liste et initiales](./captures/01-liste-contacts.png), [fiche](./captures/02-fiche-contact.png), [modification](./captures/03-modification-contact.png), [photo sélectionnée](./captures/04-selection-photo.png) et [photo enregistrée dans la liste](./captures/05-photo-en-liste.png).
+Captures : [liste et initiales](./captures/01-liste-contacts.png), [fiche](./captures/02-fiche-contact.png), [modification](./captures/03-modification-contact.png) et [fiche avec les commandes de sélection](./captures/04-selection-photo.png).
 
 ## Tests
 
-Les cinq contacts initiaux, leurs initiales, noms et numéros ont été vérifiés dans la liste. Les essais navigateur couvrent la modification et la persistance après rechargement, le retour sans sauvegarde, les champs vides, l’e-mail invalide, la prévisualisation d’une image et son affichage dans la liste après sauvegarde. Les liens `tel:` et `mailto:` ont été vérifiés ; l’ouverture d’applications natives et la prise de photo doivent encore être essayées sur un téléphone compatible.
+Les cinq contacts initiaux, leurs initiales, noms et numéros ont été vérifiés dans la liste. Les essais navigateur couvrent la modification et la persistance après rechargement, le retour sans sauvegarde, les champs vides et l’e-mail invalide. Les liens `tel:` et `mailto:` ont été vérifiés ; l’ouverture d’applications natives et la prise de photo doivent encore être essayées sur un téléphone compatible. Les avatars restent en initiales même lorsqu’une photo est choisie.
 
 ## Déploiement
 

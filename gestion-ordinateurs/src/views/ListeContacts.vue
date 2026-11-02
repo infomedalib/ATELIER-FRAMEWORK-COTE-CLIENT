@@ -7,14 +7,7 @@
 
     <ul class="contact-list">
       <li v-for="contact in contacts" :key="contact.id" class="contact-card">
-        <img
-          v-if="photoPersonnalisee(contact.photo)"
-          :src="contact.photo"
-          :alt="'Photo de ' + contact.prenom + ' ' + contact.nom"
-          class="contact-photo"
-        />
         <span
-          v-else
           class="avatar-initiales"
           :style="{ background: contact.couleur || '#dbeafe' }"
           aria-hidden="true"
@@ -40,10 +33,6 @@ import { useContacts } from '../composables/useContacts'
 
 const router = useRouter()
 const { contacts } = useContacts()
-
-function photoPersonnalisee(photo) {
-  return typeof photo === 'string' && photo.startsWith('data:image/')
-}
 
 function initiale(contact) {
   const prenom = contact.prenom?.trim()
@@ -113,14 +102,6 @@ function ajouter() {
   flex-shrink: 0;
 }
 
-.contact-photo {
-  width: 48px;
-  height: 48px;
-  border-radius: 50%;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
 .avatar-initiales {
   display: flex;
   align-items: center;
@@ -173,8 +154,7 @@ function ajouter() {
     padding: 8px;
   }
 
-  .avatar-initiales,
-  .contact-photo {
+  .avatar-initiales {
     width: 42px;
     height: 42px;
   }

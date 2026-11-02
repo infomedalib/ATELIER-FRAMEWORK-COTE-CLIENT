@@ -3,17 +3,12 @@
     <h2>{{ isNew ? 'Nouveau contact' : 'Fiche contact — Modification' }}</h2>
 
     <div class="photo-zone">
-      <img
-        v-if="hasCustomPhoto"
-        :src="form.photo"
-        :alt="'Portrait de ' + form.prenom + ' ' + form.nom"
-        class="photo-preview"
-      />
-      <span v-else class="photo-preview avatar-initiales" :style="{ background: form.couleur || '#dbeafe' }">{{
+      <span class="photo-preview avatar-initiales" :style="{ background: form.couleur || '#dbeafe' }">{{
         initiales(form) }}</span>
 
       <p class="hint">
         Sur un appareil compatible, Caméra ouvre l’appareil photo. Sinon, choisissez une image dans la galerie.
+        L’avatar reste affiché avec les initiales.
       </p>
     </div>
 
@@ -74,9 +69,6 @@ const { getContact, saveContact, newContact, initiales } = useContacts()
 
 const isNew = computed(() => route.name === 'NouveauContact')
 const telephoneHref = computed(() => `tel:${form.telephone.replace(/[^\d+]/g, '')}`)
-const hasCustomPhoto = computed(() =>
-  typeof form.photo === 'string' && form.photo.startsWith('data:image/'),
-)
 
 const existing = isNew.value ? null : getContact(route.params.id)
 const form = reactive(existing ? { ...existing } : newContact())
