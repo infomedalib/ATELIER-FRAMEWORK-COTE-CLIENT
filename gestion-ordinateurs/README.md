@@ -1,41 +1,54 @@
-# Gestion des ordinateurs — Vue 3
+# Gestion des contacts — Vue.js
 
-Application Vue 3 (Vite) de gestion d'un parc informatique : liste des ordinateurs, recherche, tri, ajout, modification et suppression, avec persistance dans le `localStorage`.
+Application Vue 3 permettant de consulter, modifier et ajouter des contacts. Les pages Liste et Détail partagent leur état avec un composable ; les changements sont conservés dans le stockage local du navigateur.
 
-## Installation
+## Installation et lancement
 
-Prérequis : Node.js (voir `engines` dans `package.json`) et npm.
+Prérequis : Node.js 20.19+ ou 22.12+ et npm.
 
-```sh
-cd gestion-ordinateurs
-npm install
-```
-
-## Exécution
-
-```sh
+```bash
+npm ci
 npm run dev
 ```
 
-Puis ouvrir http://localhost:5173
+Ouvrir l’URL affichée par Vite. Pour vérifier le build destiné à GitHub Pages :
 
-### Production
-
-```sh
-npm run build     # type-check + build
-npm run preview   # prévisualiser le build
+```bash
+npm run build
+npm run preview
 ```
 
 ## Fonctionnalités
 
-- Liste des ordinateurs sous forme de cartes (modèle, processeur, RAM, disque, carte graphique, photo)
-- Statistiques : nombre d'ordinateurs, RAM totale, stockage total
-- Recherche par modèle ou processeur
-- Tri par mémoire RAM (décroissante)
-- Formulaire d'ajout / modification avec validation (modèle et processeur obligatoires, RAM et disque strictement positifs)
-- Suppression avec confirmation
-- Persistance des données dans le `localStorage`
+- Liste de cinq contacts d’exemple, avec avatar à l’initiale du prénom, nom, prénom et téléphone.
+- Photo personnalisée prévisualisée dans la fiche et visible dans la liste après enregistrement.
+- Fiche de consultation/modification et formulaire d’ajout.
+- Initiales dans les cercles des contacts d’exemple ; photo choisie affichée dès sa sélection.
+- Actions natives `tel:` et `mailto:`.
+- Sélection d’image depuis la galerie et capture via `input type="file" capture="environment"`.
+- Prévisualisation immédiate ; images redimensionnées avant l’enregistrement.
+- Validation des champs et de l’adresse e-mail ; retour à la liste sans sauvegarder.
+- Persistance locale avec migration des anciens contacts et des photos manquantes.
+- Routage par fragment d’URL pour fonctionner sur l’hébergement statique GitHub Pages.
 
-## Captures d'écran
+## Livrables et structure
 
-Voir le dossier [`../captures/`](../captures/) (fichiers 01 à 04) et le compte rendu [`../COMPTE_RENDU.md`](../COMPTE_RENDU.md).
+- `src/App.vue` : cadre responsive de l’application.
+- `src/router/index.js` : navigation Vue Router.
+- `src/composables/useContacts.js` : contacts partagés et sauvegarde locale.
+- `src/views/ListeContacts.vue` : liste et accès aux fiches.
+- `src/views/DetailContact.vue` : consultation, modification et ajout.
+- `captures/` : captures réalisées depuis l’application.
+- `Rapport-TP-Gestion-Contacts.pdf` : compte rendu du projet et des tests.
+
+Captures : [liste et initiales](./captures/01-liste-contacts.png), [fiche](./captures/02-fiche-contact.png), [modification](./captures/03-modification-contact.png), [photo sélectionnée](./captures/04-selection-photo.png) et [photo enregistrée dans la liste](./captures/05-photo-en-liste.png).
+
+## Tests
+
+Les cinq contacts initiaux, leurs initiales, noms et numéros ont été vérifiés dans la liste. Les essais navigateur couvrent la modification et la persistance après rechargement, le retour sans sauvegarde, les champs vides, l’e-mail invalide, la prévisualisation d’une image et son affichage dans la liste après sauvegarde. Les liens `tel:` et `mailto:` ont été vérifiés ; l’ouverture d’applications natives et la prise de photo doivent encore être essayées sur un téléphone compatible.
+
+## Déploiement
+
+Le workflow GitHub Actions du dépôt construit l’application et la publie sur GitHub Pages après chaque mise à jour de `main`. L’action tente d’activer Pages automatiquement. Si le compte du workflow n’a pas les droits nécessaires, un administrateur doit sélectionner la source **GitHub Actions** dans **Settings → Pages**. Après publication, l’application est accessible à l’adresse :
+
+<https://infomedalib.github.io/ATELIER-FRAMEWORK-COTE-CLIENT/>
