@@ -1,0 +1,31 @@
+{
+  "tickets": [
+    {
+      "id": 1,
+      "titre": "Imprimante en panne",
+      "description": "L'imprimante de la salle 2 ne répond plus.",
+      "demandeur": "Ahmed",
+      "priorite": "Moyenne",
+      "statut": "Ouvert",
+      "dateCreation": "2026-11-01"
+    },
+    {
+      "id": 2,
+      "titre": "Écran cassé",
+      "description": "L'écran du poste 5 a une fissure.",
+      "demandeur": "Sana",
+      "priorite": "Haute",
+      "statut": "Résolu",
+      "dateCreation": "2026-11-05"
+    },
+    {
+      "id": 3,
+      "titre": "Wifi lent",
+      "description": "Le wifi de la bibliothèque est très lent le matin.",
+      "demandeur": "Yassine",
+      "priorite": "Basse",
+      "statut": "Résolu",
+      "dateCreation": "2026-11-08"
+    }
+  ]
+}

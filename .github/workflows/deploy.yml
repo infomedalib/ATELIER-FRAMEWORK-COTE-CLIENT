@@ -1,4 +1,4 @@
-﻿name: Deploy Vue app to GitHub Pages
+name: Deploy Vue to GitHub Pages
 
 on:
   push:
@@ -7,6 +7,7 @@ on:
     paths:
       - 'gestion-ordinateurs/**'
       - 'TP2_Tickets_Maintenance/**'
+      - 'TP2_Tickets_Maintenance_part2/**'
       - '.github/workflows/deploy.yml'
   workflow_dispatch:
 
@@ -31,7 +32,10 @@ jobs:
         with:
           node-version: 22
           cache: npm
-          cache-dependency-path: gestion-ordinateurs/package-lock.json
+          cache-dependency-path: |
+            gestion-ordinateurs/package-lock.json
+            TP2_Tickets_Maintenance/package-lock.json
+            TP2_Tickets_Maintenance_part2/package-lock.json
 
       - name: Install dependencies
         run: npm ci
@@ -49,11 +53,54 @@ jobs:
         run: npm run build
         working-directory: TP2_Tickets_Maintenance
 
+      - name: Install TP2 part 2 dependencies
+        run: npm ci
+        working-directory: TP2_Tickets_Maintenance_part2
+
+      - name: Build TP2 part 2 app
+        run: npm run build
+        working-directory: TP2_Tickets_Maintenance_part2
+
       - name: Prepare Pages site
         run: |
-          mkdir -p site/TP2_Tickets_Maintenance
+          cp gestion-ordinateurs/dist/index.html gestion-ordinateurs/dist/404.html
+          cp TP2_Tickets_Maintenance/dist/index.html TP2_Tickets_Maintenance/dist/404.html
+          cp TP2_Tickets_Maintenance_part2/dist/index.html TP2_Tickets_Maintenance_part2/dist/404.html
+          mkdir -p site/TP2_Tickets_Maintenance site/tp2-tickets-maintenance-dali
           cp -a gestion-ordinateurs/dist/. site/
           cp -a TP2_Tickets_Maintenance/dist/. site/TP2_Tickets_Maintenance/
+          cp -a TP2_Tickets_Maintenance_part2/dist/. site/tp2-tickets-maintenance-dali/
+          cat > site/404.html <<'EOF'
+          <!doctype html>
+          <html lang="fr">
+            <head><meta charset="UTF-8"><title>Chargement de l’application</title></head>
+            <body>
+              <p>Chargement de l’application…</p>
+              <script>
+                const ticketPrefix = '/ATELIER-FRAMEWORK-COTE-CLIENT/tp2-tickets-maintenance-dali/';
+                const existingTicketsPrefix = '/ATELIER-FRAMEWORK-COTE-CLIENT/TP2_Tickets_Maintenance/';
+                const indexUrl = location.pathname.startsWith(ticketPrefix)
+                  ? ticketPrefix + 'index.html'
+                  : location.pathname.startsWith(existingTicketsPrefix)
+                    ? existingTicketsPrefix + 'index.html'
+                    : '/ATELIER-FRAMEWORK-COTE-CLIENT/index.html';
+                fetch(indexUrl)
+                  .then((response) => {
+                    if (!response.ok) throw new Error('HTTP ' + response.status);
+                    return response.text();
+                  })
+                  .then((html) => {
+                    document.open();
+                    document.write(html);
+                    document.close();
+                  })
+                  .catch((error) => {
+                    document.body.textContent = 'Impossible de charger l’application : ' + error.message;
+                  });
+              </script>
+            </body>
+          </html>
+          EOF
 
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5

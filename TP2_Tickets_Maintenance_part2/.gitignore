@@ -1,0 +1,11 @@
+# Dépendances
+node_modules
+
+# Build
+dist
+dist-ssr
+*.local
+
+# Système
+.DS_Store
+Thumbs.db
