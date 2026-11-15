@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import TicketList from '../views/TicketList.vue'
 import TicketForm from '../views/TicketForm.vue'
 import TicketDetail from '../views/TicketDetail.vue'
@@ -17,7 +17,7 @@ const routes = [
 ]
 
 export default createRouter({
-  history: createWebHistory(),
+  history: createWebHashHistory(import.meta.env.BASE_URL),
   routes,
   scrollBehavior() {
     return { top: 0 }
