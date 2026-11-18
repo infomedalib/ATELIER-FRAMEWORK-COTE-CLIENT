@@ -1,6 +1,6 @@
 # TP1 — Consultation des tickets
 
-Le projet Vue situe dans `TP2_Tickets_Maintenance/` reprend les fonctionnalites du TP1 et les complete avec le CRUD du TP2. Il n'y a donc pas de seconde copie de l'application.
+Le projet TP1 autonome est conserve dans `../tickets-maintenance/`. Le projet TP2 situe dans `TP2_Tickets_Maintenance/` reprend aussi les fonctionnalites de consultation du TP1 et les complete avec le CRUD du TP2. Les captures TP1 sont copiees dans `captures/TP1/`.
 
 ## Installation et lancement
 

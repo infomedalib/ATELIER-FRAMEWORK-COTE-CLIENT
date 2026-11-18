@@ -1,0 +1,7 @@
+{
+  "tickets": [
+    { "id": "1", "titre": "Imprimante bloquée", "description": "Bourrage papier au secrétariat", "demandeur": "Amira", "priorite": "Haute", "statut": "Ouvert", "dateCreation": "2026-11-01" },
+    { "id": "2", "titre": "Wi-Fi indisponible", "description": "Connexion instable en salle B", "demandeur": "Sami", "priorite": "Moyenne", "statut": "En cours", "dateCreation": "2026-10-30" },
+    { "id": "3", "titre": "Écran noir", "description": "PC du laboratoire ne démarre pas", "demandeur": "Leila", "priorite": "Basse", "statut": "Résolu", "dateCreation": "2026-10-29" }
+  ]
+}
