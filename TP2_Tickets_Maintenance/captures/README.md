@@ -1,6 +1,18 @@
-# Captures obligatoires du TP2
+# Captures obligatoires
 
-Enregistrer ici les captures réelles de votre application, avec les noms suivants :
+## TP1
+
+Les cinq captures du TP1 sont conservees dans `captures/TP1/` :
+
+- `01-api-json.png`
+- `02-liste-tickets.png`
+- `03-recherche.png`
+- `04-filtres.png`
+- `05-erreur-serveur.png`
+
+## TP2
+
+Enregistrer ici les captures réelles de l'application principale, avec les noms suivants :
 
 1. `01-creation-formulaire.png` — formulaire de création renseigné (ex. Clavier défectueux, priorité Haute).
 2. `02-ticket-dans-liste.png` — ticket nouvellement créé visible dans la liste.
@@ -18,4 +30,4 @@ Enregistrer ici les captures réelles de votre application, avec les noms suivan
 - Utiliser `Win + Shift + S` sous Windows pour capturer la zone utile.
 - Enregistrer les images dans ce dossier avec les noms ci-dessus.
 
-Ne pas utiliser des captures d'exemple : les images doivent montrer votre application exécutée localement.
+Ne pas utiliser des captures d'exemple : les images doivent montrer l'application exécutée localement.

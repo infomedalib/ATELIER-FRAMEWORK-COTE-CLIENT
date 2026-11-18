@@ -1,11 +1,10 @@
-name: Deploy Vue to GitHub Pages
+name: Deploy ticket apps to GitHub Pages
 
 on:
   push:
     branches:
       - main
     paths:
-      - 'gestion-ordinateurs/**'
       - 'TP2_Tickets_Maintenance/**'
       - 'TP2_Tickets_Maintenance_part2/**'
       - '.github/workflows/deploy.yml'
@@ -22,7 +21,7 @@ concurrency:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -33,70 +32,57 @@ jobs:
           node-version: 22
           cache: npm
           cache-dependency-path: |
-            gestion-ordinateurs/package-lock.json
             TP2_Tickets_Maintenance/package-lock.json
             TP2_Tickets_Maintenance_part2/package-lock.json
 
-      - name: Install dependencies
-        run: npm ci
-        working-directory: gestion-ordinateurs
-
-      - name: Build Vue app
-        run: npm run build
-        working-directory: gestion-ordinateurs
-
-      - name: Install tickets app dependencies
-        run: npm ci
+      - name: Install and build main TP2 app
         working-directory: TP2_Tickets_Maintenance
+        run: |
+          npm ci
+          npm run build
 
-      - name: Build tickets app
-        run: npm run build
-        working-directory: TP2_Tickets_Maintenance
-
-      - name: Install TP2 part 2 dependencies
-        run: npm ci
+      - name: Install and build TP2 part 2 app
         working-directory: TP2_Tickets_Maintenance_part2
-
-      - name: Build TP2 part 2 app
-        run: npm run build
-        working-directory: TP2_Tickets_Maintenance_part2
+        run: |
+          npm ci
+          npm run build
 
       - name: Prepare Pages site
         run: |
-          cp gestion-ordinateurs/dist/index.html gestion-ordinateurs/dist/404.html
-          cp TP2_Tickets_Maintenance/dist/index.html TP2_Tickets_Maintenance/dist/404.html
-          cp TP2_Tickets_Maintenance_part2/dist/index.html TP2_Tickets_Maintenance_part2/dist/404.html
           mkdir -p site/TP2_Tickets_Maintenance site/tp2-tickets-maintenance-dali
-          cp -a gestion-ordinateurs/dist/. site/
+          cp TP2_Tickets_Maintenance/dist/index.html TP2_Tickets_Maintenance/dist/404.html
           cp -a TP2_Tickets_Maintenance/dist/. site/TP2_Tickets_Maintenance/
+          cp TP2_Tickets_Maintenance_part2/dist/index.html TP2_Tickets_Maintenance_part2/dist/404.html
           cp -a TP2_Tickets_Maintenance_part2/dist/. site/tp2-tickets-maintenance-dali/
           cat > site/404.html <<'EOF'
           <!doctype html>
-          <html lang="fr">
-            <head><meta charset="UTF-8"><title>Chargement de l’application</title></head>
+          <html lang="en">
+            <head><meta charset="utf-8"><title>Loading app</title></head>
             <body>
-              <p>Chargement de l’application…</p>
+              <p>Loading application…</p>
               <script>
-                const ticketPrefix = '/ATELIER-FRAMEWORK-COTE-CLIENT/tp2-tickets-maintenance-dali/';
-                const existingTicketsPrefix = '/ATELIER-FRAMEWORK-COTE-CLIENT/TP2_Tickets_Maintenance/';
-                const indexUrl = location.pathname.startsWith(ticketPrefix)
-                  ? ticketPrefix + 'index.html'
-                  : location.pathname.startsWith(existingTicketsPrefix)
-                    ? existingTicketsPrefix + 'index.html'
-                    : '/ATELIER-FRAMEWORK-COTE-CLIENT/index.html';
-                fetch(indexUrl)
-                  .then((response) => {
-                    if (!response.ok) throw new Error('HTTP ' + response.status);
-                    return response.text();
-                  })
-                  .then((html) => {
-                    document.open();
-                    document.write(html);
-                    document.close();
-                  })
-                  .catch((error) => {
-                    document.body.textContent = 'Impossible de charger l’application : ' + error.message;
-                  });
+                const prefixes = [
+                  '/ATELIER-FRAMEWORK-COTE-CLIENT/TP2_Tickets_Maintenance/',
+                  '/ATELIER-FRAMEWORK-COTE-CLIENT/tp2-tickets-maintenance-dali/'
+                ];
+                const prefix = prefixes.find((candidate) => location.pathname.startsWith(candidate));
+                if (prefix) {
+                  fetch(prefix + 'index.html')
+                    .then((response) => {
+                      if (!response.ok) throw new Error('HTTP ' + response.status);
+                      return response.text();
+                    })
+                    .then((html) => {
+                      document.open();
+                      document.write(html);
+                      document.close();
+                    })
+                    .catch((error) => {
+                      document.body.textContent = 'Unable to load application: ' + error.message;
+                    });
+                } else {
+                  document.body.textContent = 'Application not found.';
+                }
               </script>
             </body>
           </html>
@@ -105,7 +91,7 @@ jobs:
       - name: Setup GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload build artifact
+      - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
           path: site
@@ -114,7 +100,7 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-latest
     needs: build
     steps:
       - name: Deploy to GitHub Pages
